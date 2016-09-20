@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}登录{% end %}
+{% block content %}
+<body id="login">
+  <div class="login-logo">
+    <a href="index.html"><img src="{{ static_url("images/logo.png") }}" width="100" height="50" alt=""/></a>
+  </div>
+  <h2 class="form-heading">login</h2>
+  <div class="app-cam">
+	  <form>
+		<input type="text" class="text" value="E-mail address" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'E-mail address';}">
+		<input type="password" value="Password" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Password';}">
+		<div class="submit"><input type="submit" onclick="myFunction()" value="Login"></div>
+		<!-- <div class="login-social-link">
+          <a href="index.html" class="facebook">
+              Facebook
+          </a>
+          <a href="index.html" class="twitter">
+              Twitter
+          </a>
+        </div> -->
+		<ul class="new">
+			<li class="new_left">忘记密码?----->>>>></li>
+			<li class="new_right"><!-- <a href="register.html">  -->管理员QQ:375235513</li>
+			<div class="clearfix"></div>
+		</ul>
+	</form>
+  </div>
+   <div class="copy_layout login">
+      {% include footer.html %}
+   </div>
+ {% end %}
