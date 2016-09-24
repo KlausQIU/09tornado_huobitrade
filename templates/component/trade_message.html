@@ -1,0 +1,48 @@
+<div class="col-md-4 stats-info stats-info1" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:300px;height:345px">
+                <div class="panel-heading">
+                    <h4 class="panel-title">交易信息</h4>
+                </div>
+                <div class="panel-body panel-body2" >
+                    <ul class="list-unstyled">
+                        <li>Loading</li>
+                    </ul>
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+<style>
+div ul li.add_style{
+    color: red;
+    font-size: 15px;
+    font-weight:700;
+}
+</style>
+<script>
+function updateData() { 
+   $.ajax({ 
+    url: 'http://api.huobi.com/staticmarket/detail_ltc_json.js', 
+    type: 'GET', 
+    dataType: 'json', 
+    timeout: 5000,  
+    error: erryFunction, //错误执行方法 
+    success: succFunction //成功执行方法 
+   }) 
+function erryFunction(){
+    console.log("Error Data")
+}
+function succFunction(data){
+    var html = ''
+    var data_m = data['trades'] 
+    $.each(data_m, function (index, item) { 
+     //循环获取数据
+    if(index==0){ 
+    html += '<li class="add_style">'+item['time']+'&nbsp;&nbsp;'+item['type']+'&nbsp;&nbsp;'+item['price']+'&nbsp;&nbsp;'+item['amount']+'</li>';
+    }
+    else{
+       html += '<li>'+item['time']+'&nbsp;&nbsp;'+item['type']+'&nbsp;&nbsp;'+item['price']+'&nbsp;&nbsp;'+item['amount']+'</li>';
+    }
+    });
+    $(".list-unstyled").html(html);
+   } 
+}
+setInterval("updateData()",1000);
+</script>

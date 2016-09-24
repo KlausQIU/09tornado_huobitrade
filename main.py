@@ -19,6 +19,9 @@ class Application(tornado.web.Application):
         tornado.web.Application.__init__(self, url, **settings)
 
 if __name__ == '__main__':
+    import os
+    import sys
+    sys.path.append(os.getcwd())
     tornado.options.parse_command_line()
     http_server = tornado.httpserver.HTTPServer(Application())
     http_server.listen(options.port)

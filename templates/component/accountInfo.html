@@ -1,0 +1,67 @@
+<div class="col_3">
+            <div class="col-md-3 widget widget1">
+                <div class="r3_counter_box">
+                    <i class="pull-left fa fa-area-chart fa-2x icon-rounded"></i>
+                    <div class="stats">
+                      <h5><strong>{{ ProfitRate }}%</strong></h5>
+                      <span>收益率</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 widget widget1">
+                <div class="r3_counter_box">
+                    <i class="pull-left fa fa-bomb fa-2x fa-spin icon-rounded "></i>
+                    <div class="stats">
+                      <h5><strong>{{ testMoney }}</strong></h5>
+                      <span>总额止损价</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 widget widget1">
+                <div class="r3_counter_box">
+                    <i class="pull-left fa fa-database fa-spin fa-2x user2 icon-rounded"></i>
+                    <div class="stats">
+                      <h5><strong>{{ tradeTotal }}</strong></h5>
+                      <span>交易量</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 widget">
+                <div class="r3_counter_box">
+                    <i class="pull-left fa fa-dollar fa-spin fa-2x dollar1 icon-rounded"></i>
+                    <div class="stats">
+                      <h5><strong>￥{{ moneyTotal }}</strong></h5>
+                      <span>资金总量</span>
+                    </div>
+                </div>
+             </div>
+            <div class="clearfix"> </div>
+      </div>
+
+<script>
+function account_data() { 
+   $.ajax({ 
+    url: 'http://localhost:7788/api/accountInfo', 
+    type: 'GET', 
+    dataType: 'json', 
+    timeout: 10000,  
+    //error: erryFunction, //错误执行方法 
+    success: succFunction //成功执行方法 
+   }) 
+function erryFunction(){
+    alert("Error Data")
+}
+function succFunction(data){
+     //循环获取数据
+    var number = $("div.stats>h5>strong");
+    number.eq(0).html(data["ProfitRate"]+"%");
+    number.eq(1).html(data["testMoney"]);
+    number.eq(2).html(data["tradeTotal"]);
+    number.eq(3).html("￥"+data["moneyTotal"]);
+   } 
+}
+$(function(){
+  setInterval("account_data()",3000);
+})
+
+</script>

@@ -10,4 +10,7 @@ url += [(r"^/", "handlers.index.IndexHandler")]
 url += [(r"^/huobi","handlers.huobi.HuobiHandler")]
 url += [(r"^/login", "handlers.huobi.LoginHandler")]
 url += [(r"^/account", "handlers.huobi.HuobiHandler")]
+url += [(r"^/trade", "handlers.huobi.TradeHandler")]
+url += [(r"^/api/accountInfo", "handlers.ApiHandler.TradeHandler")]
+url += [(r"^/api/moneyTotal", "handlers.ApiHandler.totalHandler")]
 
