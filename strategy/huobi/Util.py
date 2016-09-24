@@ -6,8 +6,8 @@ import hmac
 import base64
 
 #在此输入您的Key
-ACCESS_KEY="7ffd4f94-63d605e6-d5f400fb-a6ba0"
-SECRET_KEY="d5d52f33-dcbd2167-5c6b7b0f-f5676"
+ACCESS_KEY=""
+SECRET_KEY=""
 
 HUOBI_SERVICE_API="https://api.huobi.com/apiv3"
 
