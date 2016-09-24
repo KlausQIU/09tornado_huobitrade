@@ -1,3 +1,4 @@
 # 09tornado_huobitrade
 20160920init
-09tornado_huobitrade/static/images/tornadoHuobi.png
+
+![image](https://github.com/KlausQIU/09tornado_huobitrade/static/images/tornadoHuobi.png)
