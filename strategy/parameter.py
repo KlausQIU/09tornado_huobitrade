@@ -20,26 +20,7 @@ class parameter():
             self.buyone_price = float(self.ticker_ltc['ticker']['buy'])
             #交易总量 
             self.trade_total = self.ticker_ltc['ticker']['vol']
-            # self.account_info = HuobiService.getAccountInfo(ACCOUNT_INFO)
-            # self.getOrder = HuobiService.getOrders(2,GET_ORDERS)
-            # #卖单数量
-            # self.sellOne_count = [order for order in self.getOrder if order['type'] == 2]
-            # #买单数量
-            # self.buyOne_count = [order for order in self.getOrder if order['type'] == 1]
-            #已完成的委托
-            # self.dealOrders =  HuobiService.getNewDealOrders(2,NEW_DEAL_ORDERS)
-            # #资产折合
-            # self.total = float(self.account_info['total'])
-            #可用资金
-            # self.a_cny_display = float(self.account_info['available_cny_display'])
-            # #可用莱特币
-            # self.a_ltc_display = float(self.account_info['available_ltc_display'])
-            #收益率
-            # db = d.db_control()
-            # result = db.select('SETTING',UID=0)
-            # total_money = float(result[0][2])
-            # db.close()
-            # self.ProfitRate = '%.4f'%((self.total-total_money)/total_money*100)
         except BaseException as e:
+            self.trade_total = 0
             print u'无法获取数据',e
 

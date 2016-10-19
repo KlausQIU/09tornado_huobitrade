@@ -17,4 +17,5 @@ settings = dict(
     cookie_secret="RYxFqFQyRCiCZ/nxFfTMCrbqZpRZ5UW9tQ86fKvrfIw=",
     login_url="/login",
     debug=True,
+    autoreload=False
 )

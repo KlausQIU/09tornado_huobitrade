@@ -1,0 +1,45 @@
+<style type="text/css">
+    .grid-padding{
+        padding-top:20px !important;
+        padding-bottom: 20px !important;
+    }
+    .align_center{
+        text-align: center;
+    }
+    .chooseTd{
+       background-color: #fbf8e9;
+    }
+</style>
+<div class="col-md-8 stats-info stats-info1 col-sm-8" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 680px;height:500px;margin-left: 10px;float:left;">
+                <div class="panel-heading  grid-padding">
+                    <h4 class="panel-title" style="color:#05e4a1;font-size:20px;font-weight: bold;">斐波那契网格</h4>
+                </div>
+                <table class="table K-table-border">
+                <thead>
+                    <tr>
+                        <th class="align_center">区间</th>
+                        <th class="align_center">仓位</th>
+                        <th class="align_center">今日</th>
+                        <th class="align_center">当前仓位</th>
+                        <th class="align_center">一键操作</th>
+                    </tr>
+                </thead>
+                {% for n in range(0,6) %}
+                <tbody class="fibonacciShow">
+                 <td class="gridZoneName align_center">{{ fibonacci[n]['name'] }}</td>
+                 <td class="gridZonePosition align_center">{{ float(fibonacci[n]['position']) }}%</td>
+                 <td class="gridZoneToday align_center ">{{ fibonacci[n]['yesterday'] }}--{{ fibonacci[n]['today'] }}</td>
+                 {% try %}{% if fibonacci[n].has_key('freightSpace') %}<td class="gridZoneFreightSpace align_center" style="color: #000000;font-size: 18px;">{{ float(fibonacci[n]['freightSpace'])*100 }}%</td>{% else %}<td class="align_center">无</td>{% end %}
+                 {% except %}{% end  %}
+                 <td style="display: block;text-align: center;
+"><a class="btn btn-secondary align_center" >一键下单</a></td>
+                 </tbody>
+                 {% end %}
+                </table> 
+</div>
+<script>
+$(function(){
+    var chooseTd = $(".gridZoneFreightSpace").parents("tbody");
+    chooseTd.addClass('chooseTd')
+    })
+</script>

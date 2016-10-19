@@ -14,6 +14,7 @@ url += [(r"^/account", "handlers.huobi.HuobiHandler")]
 url += [(r"^/trade", "handlers.huobi.TradeHandler")]
 url += [(r"^/entrust", "handlers.huobi.entrustHandler")]
 url += [(r"^/logout", "handlers.huobi.LogoutHandler")]
+url += [(r"^/grid", "handlers.huobi.gridHandler")]
 url += [(r"^/api/accountInfo", "handlers.ApiHandler.accountInfo")]
 url += [(r"^/api/Profit", "handlers.ApiHandler.ProfitHandler")]
 url += [(r"^/api/entrust", "handlers.ApiHandler.entrustInfo")]
@@ -23,6 +24,8 @@ url += [(r"^/api/tradeSetInfo", "handlers.ApiHandler.tradeSetInfo")]
 url += [(r"^/api/APIInfo", "handlers.ApiHandler.APIInfo")]
 url += [(r"^/api/dealMessage", "handlers.ApiHandler.dealMessage")]
 url += [(r"^/api/avatarInfo", "handlers.ApiHandler.avatarInfo")]
+url += [(r"^/api/gridSetApi", "handlers.ApiHandler.gridSetApi")]
+
 
 
 

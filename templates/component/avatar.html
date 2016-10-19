@@ -9,6 +9,7 @@
         border: solid 1px;
         border-style: #05e4a1;
         }</style>
+<ul class="nav navbar-nav navbar-right">
 <li class="dropdown">
                     <a href="javascript:void(0);" class="dropdown-toggle avatar" data-toggle="dropdown"><img src={{ static_url("images/qiutuanbao.png")}}><span class="badge"></span></a>
                     <ul class="dropdown-menu">
@@ -43,7 +44,6 @@
                             <input type="password" id="alias" name="password" placeholder="******" class="form-control " value="{{ user[0][3] }}">
                         </div>
                     </div>
-
                     <div class="modal-footer">
                     <button class="btn btn-default" class="close" onclick="Custombox.close();">关闭</button>
                     <button class="btn btn-primary" id="avatarSava">保存修改</button>
@@ -51,6 +51,7 @@
                     </div>
                 </div>
 </div>
+</ul>
 <script>
 $('#callModal').on('click', function( e ) {
     Custombox.open({

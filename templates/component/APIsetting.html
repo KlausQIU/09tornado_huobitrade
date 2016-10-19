@@ -38,9 +38,9 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
 <div class="clearfix"> </div>
 </div>
 <script>
-var url = 'ws://'+window.location.host+'/api/APIInfo';
-var ws = new WebSocket(url);
-ws.onmessage = function(event){
+var APIInfourl = 'ws://'+window.location.host+'/api/APIInfo';
+var APIInfows = new WebSocket(APIInfourl);
+APIInfows.onmessage = function(event){
     var data = JSON.parse(event.data);  
     $("input[name='access_key']").val(data.access_key);
     $("input[name='secret_key']").val(data.secret_key);
@@ -48,8 +48,8 @@ ws.onmessage = function(event){
 }
 $(".APIsubmit").click(APISubmit);
 function APISubmit(){
-    var url = 'ws://'+window.location.host+'/api/APIInfo'
-    var ws = new WebSocket(url);
+    debugger;
+    var ws = new WebSocket(APIInfourl)
     ws.onopen = function(){
         var a_key = $("input[name='access_key']").val()
         var s_key = $("input[name='secret_key']").val()
@@ -60,9 +60,7 @@ function APISubmit(){
     ws.onmessage = function(event){
         var data = JSON.parse(event.data);
         swal("修改成功", "", "success")
-        $("input[name='access_key']").val(data.access_key)
-        $("input[name='secret_key']").val(data.secret_key)
-        $("input[name='totalMoney']").val(data.TOTALMONEY)
+        console.log(data.access_key)
     }
 }
 

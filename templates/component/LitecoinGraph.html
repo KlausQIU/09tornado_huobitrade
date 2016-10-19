@@ -7,6 +7,14 @@ var showdata = [];
 var myProfit = echarts.init(document.getElementById("myProfit"),'walden');
 var app = {};
 var data0 = [];
+function insert_flg(str,flg,sn){
+    var newstr="";
+    var tmp=str.substring(0,sn);
+    newstr =tmp+flg;
+    tmp = str.substring(sn);
+    newstr = newstr + tmp
+    return newstr;
+}
 function handlerltc(){
     $.ajax({
         url: 'http://api.huobi.com/staticmarket/ltc_kline_015_json.js',
@@ -14,7 +22,7 @@ function handlerltc(){
         dataType: 'json',
         success: function (data) {
             // 此处放成功后执行的代码
-            data0 = splitData(data.slice(-100));
+            data0 = splitData(data.slice(-200));
             //$.each(data,function(index,item){
                 //if(index<=100){
                 //xBxisData.push(item[0].toString().substring(8,10)+':'+item[0].toString().substring(10,12))
@@ -28,7 +36,8 @@ function splitData(rawData) {
     var xBxisData = [];
     var ltcData = []
     for (var i = 0; i < rawData.length; i++) {
-        xBxisData.push((rawData[i].splice(0, 1)[0]).substring(0,12));
+        var xdata = (rawData[i].splice(0, 1)[0]).substring(8,12);
+        xBxisData.push(insert_flg(xdata,':',2));
         var h = rawData[i][1];
         var l = rawData[i][2];
         var c = rawData[i][3];
@@ -63,6 +72,8 @@ var dealUrl = 'ws://'+window.location.host+'/api/dealMessage'
 var dealws = new WebSocket(dealUrl);
 dealdata = [];
 xCxisData = [];
+var profitUrl = 'ws://'+window.location.host+'/api/Profit'
+var profitWs = new WebSocket(profitUrl);
 dealws.onmessage = function(event){
         var data = JSON.parse(event.data);
         $.each(data,function(index,item){
@@ -73,17 +84,14 @@ dealws.onmessage = function(event){
             })
     } 
 function handlerProfit(){
-    var url = 'ws://'+window.location.host+'/api/Profit'
-    var ws = new WebSocket(url);
     xAxisData = [];
     showdata = [];
-    ws.onmessage = function(event) {
+    profitWs.onmessage = function(event) {
         var data = JSON.parse(event.data);
         $.each(data,function(index,item){
             xAxisData.push(item[1].toString().substring(8,10)+':'+item[1].toString().substring(10,12))
             showdata.push(item[4])
             })
-    
     option = {
     title: {
         text: '收益率/LTC',
@@ -140,14 +148,14 @@ function handlerProfit(){
     dataZoom: [
         {
             type: 'inside',
-            start: 50,
+            start: 70,
             end: 100
         },
         {
             show: true,
             type: 'slider',
             y: '90%',
-            start: 50,
+            start: 80,
             end: 100
         }
     ],
@@ -234,6 +242,7 @@ function handlerProfit(){
     ]
 };
 if (option && typeof option === "object") {
+
             myProfit.setOption(option, true);
             window.onresize = myProfit.resize;
         }

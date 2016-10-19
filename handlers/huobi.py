@@ -10,6 +10,7 @@ from strategy import parameter as p
 from handlers.data_collection import db as d
 import time
 from strategy import personalHandler as pH
+from strategy.grid import fibonacci  as f
 
 class BaseHandler(tornado.web.RequestHandler):
     def get_current_user(self):
@@ -79,9 +80,7 @@ class TradeHandler(BaseHandler):
     def get(self):
         self.render("trade.html")
 
-# class redirectHandler(tornado.web.RequestHandler):
-#     def 
-#     
+
 class entrustHandler(BaseHandler):
     @tornado.web.authenticated
     def get(self):
@@ -105,4 +104,38 @@ class LogoutHandler(BaseHandler):
         username = tornado.escape.xhtml_escape(self.current_user)
         self.clear_cookie("user",username)  
         self.redirect("/login")  
+
+
+class gridHandler(BaseHandler):
+
+    @tornado.web.authenticated  
+    def get(self):  
+        if not self.current_user:
+            self.redirect("/login")
+            return
+        username = tornado.escape.xhtml_escape(self.current_user)
+        db = d.db_control()
+        result = db.select('user',name = username)
+        if result:
+            fibonacci = f(result[0][1])
+            fResult = fibonacci.fibonacciResult
+            self.render("gridBase.html",user=result,fibonacci=fResult)
+        else:
+            self.redirect('login')
+
+    @tornado.web.authenticated
+    def post(self):
+        if not self.current_user:
+            self.redirect("/login")
+            return
+        username = tornado.escape.xhtml_escape(self.current_user)
+        db = d.db_control()
+        result = db.select('user',name = username)
+        if result:
+            
+            fibonacci = f(result[0][1])
+            fResult = fibonacci.fibonacciResult
+            self.render("gridBase.html",user=result,fibonacci=fResult)
+        else:
+            self.redirect('login')
 

@@ -30,22 +30,26 @@ class BaseWebSocketHandler(tornado.websocket.WebSocketHandler):
         username = tornado.escape.utf8(self.get_secure_cookie('user'))
         return db,username
 
+    def on_close(self):
+        print "WebSocket closed"
+
 class ProfitHandler(BaseWebSocketHandler):
     clients = set()  
     def open(self):
+        print "ProfitHandler websocket open"
         db,username = self.baseOpenDb()
         result = db.select('user',name = username)
         result = db.select('profitData',uid=result[0][1])
         db.close()
         if len(result) > 20:
-            result = result[-100:]
+            result = result[-200:]
         respon_json = tornado.escape.json_encode(result) 
         self.write_message(respon_json)
-
   
 class accountInfo(BaseWebSocketHandler):
     clients = set()  
     def open(self):
+        print "AccountInfo websocket open"
         db,username = self.baseOpenDb()
         parameter = p.parameter()
         result = db.select('user',name = username)
@@ -94,12 +98,14 @@ class APIInfo(BaseWebSocketHandler):
             if UserResult['msg'] == 'success':
                 result = {'access_key':UResult[0][4],'secret_key':UResult[0][5],'TOTALMONEY':SetResult[0][2]}
                 respon_json = tornado.escape.json_encode(result)
+                print respon_json
                 self.write_message(respon_json)
 
 
 class entrustInfo(BaseWebSocketHandler):
     clients = set()  
     def open(self):
+        print "entrustInfo websocket Open"
         db,username = self.baseOpenDb()
         result = db.select('user',name = username)
         if result:
@@ -200,6 +206,26 @@ class avatarInfo(BaseWebSocketHandler):
                 result = tornado.escape.json_encode({'msg':'fail'})
                 self.write_message(result)
 
+class gridSetApi(BaseWebSocketHandler):
+    clients = set()
+    def open(self):
+        print 'gridSetApi websocket Open'
+
+    def on_message(self,message):
+        db,username = self.baseOpenDb()
+        result = db.select('user',name = username)
+        if result:
+            message = json.loads(message)
+            message = ','.join(message)
+            updateRow = {'position':message}
+            selectRow = {'UID':result[0][1]}
+            FResult = db.update("fibonacciGrid",updateRow,selectRow)
+            if FResult['msg'] == 'success':
+                respon_json = tornado.escape.json_encode(FResult)
+                self.write_message(respon_json)
+            else:
+                result = tornado.escape.json_encode({'msg':'fail'})
+                self.write_message(result)
 
 
 

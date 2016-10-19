@@ -1,3 +1,8 @@
+<style>
+    a:hover{
+        border: 2px solid #05e4a1;
+    }
+</style>
 <div class="navbar-default sidebar" role="navigation">
     <div class="sidebar-nav navbar-collapse">
         <ul class="nav" id="side-menu">
@@ -32,13 +37,13 @@
                 <a href="#"><i class="fa fa-envelope nav_icon"></i>策略配置<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a href="javascript:void(0);" name="DTStrategy">DT策略</a>
+                        <a href="javascript:void(0);" class="DTStrategy" name="DTStrategy">DT策略</a>
                     </li>
                     <li>
                         <a href="javascript:void(0);" name="tradeStrategy">市交策略</a>
                     </li>
                     <li>
-                        <a href="javascript:void(0);" name="netStrategy">网格策略</a>
+                        <a href="grid" class = "netStrategy" name="netStrategy">网格策略</a>
                     </li>
                     <li>
                         <a href="javascript:void(0);" name="pyramidStrategy">金字塔策略</a>
@@ -93,7 +98,7 @@
     $("a[name='OKLTC']").click(waitDev);
     $("a[name='DTStrategy']").click(waitDev);
     $("a[name='tradeStrategy']").click(waitDev);
-    $("a[name='netStrategy']").click(waitDev);
+    //$("a[name='netStrategy']").click(waitDev);
     $("a[name='pyramidStrategy']").click(waitDev);
     function waitDev(){
         swal("还没开发好呢","其实是还没想好要做什么页面。。","error")
