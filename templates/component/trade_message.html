@@ -1,6 +1,6 @@
-<div class="col-md-4 stats-info stats-info1" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:300px;height:345px">
+<div class="col-md-4 stats-info stats-info1 col-sm-4" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:320px;height:390px">
                 <div class="panel-heading">
-                    <h4 class="panel-title">交易信息</h4>
+                    <h4 class="panel-title" style="color:#05e4a1">交易信息</h4>
                 </div>
                 <div class="panel-body panel-body2" >
                     <ul class="list-unstyled">
@@ -11,7 +11,7 @@
             </div>
 <style>
 div ul li.add_style{
-    color: red;
+    color: #05e4a1;
     font-size: 15px;
     font-weight:700;
 }
@@ -31,7 +31,7 @@ function erryFunction(){
 }
 function succFunction(data){
     var html = ''
-    var data_m = data['trades'] 
+    var data_m = data['trades'].slice(0,20)
     $.each(data_m, function (index, item) { 
      //循环获取数据
     if(index==0){ 
@@ -44,5 +44,9 @@ function succFunction(data){
     $(".list-unstyled").html(html);
    } 
 }
-setInterval("updateData()",1000);
+$(function(){
+setInterval("updateData()",3000);
+})
+
+
 </script>

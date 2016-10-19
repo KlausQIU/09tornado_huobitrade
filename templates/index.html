@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}主页{% end %}
 {% block content %}
-<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
 <div id="wrapper">
      <!-- Navigation -->
@@ -19,30 +19,31 @@
             <ul class="nav navbar-nav navbar-right">
                 {% include component/avatar.html %}
             </ul>
-			<form class="navbar-form navbar-right">
-              <input type="text" class="form-control" value="Search..." onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search...';}">
-            </form>
+
             {% include component/navbar_side.html %}
             <!-- /.navbar-static-side -->
         </nav>
-		<div class="copyrights">Collect from <a href="http://www.cssmoban.com/" >网页模板</a></div>
         <div id="page-wrapper">
-        <div class="graphs">
+    <div class="graphs">
      	{% include component/accountInfo.html %}
-      <div class="col-md-12">
+    <div class="col-md-12" style="margin-bottom: 20px">
+            {% include component/APIsetting.html %}
             {% include component/LitecoinGraph.html %}
-            {% include component/trade_message.html %}
-            <div class="clearfix"> </div>
 	  </div>
-	  <div class="span_11">
-        {% include component/profitGraph.html %}
-        {% include component/calender.html %}
-</div>
-       <div class="clearfix"> </div>
+    <div class="clearfix"> </div>
+	  <div class="col-md-12" style="margin-bottom: 20px">
+        {% include component/tradeSetting.html %}
+        {% include component/entrust_message.html %}
     </div>
+    <div class="clearfix"> </div>
+    <div class="col-md-12" style="margin-bottom: 20px">
+            {% include component/trade_message.html %}
+          {% include component/deal_message.html %}
+  </div>
+  <div class="clearfix"> </div>
+  </div>
     <div class="content_bottom">
      <div class="col-md-8 span_3">
-          
         {% include component/footer.html %}
     </div>
    </div>

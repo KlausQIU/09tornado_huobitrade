@@ -10,9 +10,9 @@ from Util import *
 '''
 获取账号详情
 '''
-def getAccountInfo(method):
+def getAccountInfo(method,access_key,secret_key):
     timestamp = long(time.time())
-    params = {"access_key": ACCESS_KEY,"secret_key": SECRET_KEY, "created": timestamp,"method":method}
+    params = {"access_key": access_key,"secret_key": secret_key, "created": timestamp,"method":method}
     sign=signature(params)
     params['sign']=sign
 
@@ -35,9 +35,9 @@ def getAccountInfo(method):
 @param tradeid
 @param method
 '''
-def buy(coinType,price,amount,tradePassword,tradeid,method):
+def buy(coinType,price,amount,tradePassword,tradeid,method,access_key,secret_key):
     timestamp = long(time.time())
-    params = {"access_key": ACCESS_KEY,"secret_key": SECRET_KEY, "created": timestamp,"price":price,"coin_type":coinType,"amount":amount,"method":method}
+    params = {"access_key": access_key,"secret_key": secret_key, "created": timestamp,"price":price,"coin_type":coinType,"amount":amount,"method":method}
     sign=signature(params)
     params['sign']=sign
     del params['secret_key']
@@ -62,9 +62,9 @@ def buy(coinType,price,amount,tradePassword,tradeid,method):
 @param tradeid
 '''
 
-def buyMarket(coinType,amount,tradePassword,tradeid,method):
+def buyMarket(coinType,amount,tradePassword,tradeid,method,access_key,secret_key):
     timestamp = long(time.time())
-    params = {"access_key": ACCESS_KEY,"secret_key": SECRET_KEY, "created": timestamp,"coin_type":coinType,"amount":amount,"method":method}
+    params = {"access_key": access_key,"secret_key": secret_key, "created": timestamp,"coin_type":coinType,"amount":amount,"method":method}
     sign=signature(params)
     params['sign']=sign
     if tradePassword:
@@ -89,9 +89,9 @@ def buyMarket(coinType,amount,tradePassword,tradeid,method):
 @param id
 '''
 
-def cancelOrder(coinType,id,method):
+def cancelOrder(coinType,id,method,access_key,secret_key):
     timestamp = long(time.time())
-    params = {"access_key": ACCESS_KEY,"secret_key": SECRET_KEY, "created": timestamp,"coin_type":coinType,"id":id,"method":method}
+    params = {"access_key": access_key,"secret_key": secret_key, "created": timestamp,"coin_type":coinType,"id":id,"method":method}
     sign=signature(params)
     params['sign']=sign
     del params['secret_key']
@@ -108,9 +108,9 @@ def cancelOrder(coinType,id,method):
 查询个人最新10条成交订单
 @param coinType
 '''
-def getNewDealOrders(coinType,method):
+def getNewDealOrders(coinType,method,access_key,secret_key):
     timestamp = long(time.time())
-    params = {"access_key": ACCESS_KEY,"secret_key": SECRET_KEY, "created": timestamp,"coin_type":coinType,"method":method}
+    params = {"access_key": access_key,"secret_key": secret_key, "created": timestamp,"coin_type":coinType,"method":method}
     sign=signature(params)
     params['sign']=sign
     del params['secret_key']
@@ -128,9 +128,9 @@ def getNewDealOrders(coinType,method):
 @param coinType
 @param tradeid
 '''
-def getOrderIdByTradeId(coinType,tradeid,method):
+def getOrderIdByTradeId(coinType,tradeid,method,access_key,secret_key):
     timestamp = long(time.time())
-    params = {"access_key": ACCESS_KEY,"secret_key": SECRET_KEY, "created": timestamp,"coin_type":coinType,"method":method,"trade_id":tradeid}
+    params = {"access_key": access_key,"secret_key": secret_key, "created": timestamp,"coin_type":coinType,"method":method,"trade_id":tradeid}
     sign=signature(params)
     params['sign']=sign
     del params['secret_key']
@@ -147,9 +147,9 @@ def getOrderIdByTradeId(coinType,tradeid,method):
 获取所有正在进行的委托
 @param coinType
 '''
-def getOrders(coinType,method):
+def getOrders(coinType,method,access_key,secret_key):
     timestamp = long(time.time())
-    params = {"access_key": ACCESS_KEY,"secret_key": SECRET_KEY, "created": timestamp,"coin_type":coinType,"method":method}
+    params = {"access_key": access_key,"secret_key": secret_key, "created": timestamp,"coin_type":coinType,"method":method}
     sign=signature(params)
     params['sign']=sign
     del params['secret_key']
@@ -167,9 +167,9 @@ def getOrders(coinType,method):
 @param coinType
 @param id
 '''
-def getOrderInfo(coinType,id,method):
+def getOrderInfo(coinType,id,method,access_key,secret_key):
     timestamp = long(time.time())
-    params = {"access_key": ACCESS_KEY,"secret_key": SECRET_KEY, "created": timestamp,"coin_type":coinType,"method":method,"id":id}
+    params = {"access_key": access_key,"secret_key": secret_key, "created": timestamp,"coin_type":coinType,"method":method,"id":id}
     sign=signature(params)
     params['sign']=sign
     del params['secret_key']
@@ -190,9 +190,9 @@ def getOrderInfo(coinType,id,method):
 @param tradePassword
 @param tradeid
 '''
-def sell(coinType,price,amount,tradePassword,tradeid,method):
+def sell(coinType,price,amount,tradePassword,tradeid,method,access_key,secret_key):
     timestamp = long(time.time())
-    params = {"access_key": ACCESS_KEY,"secret_key": SECRET_KEY, "created": timestamp,"price":price,"coin_type":coinType,"amount":amount,"method":method}
+    params = {"access_key": access_key,"secret_key": secret_key, "created": timestamp,"price":price,"coin_type":coinType,"amount":amount,"method":method}
     sign=signature(params)
     params['sign']=sign
     del params['secret_key']
@@ -216,9 +216,9 @@ def sell(coinType,price,amount,tradePassword,tradeid,method):
 @param tradePassword
 @param tradeid
 '''
-def sellMarket(coinType,amount,tradePassword,tradeid,method):
+def sellMarket(coinType,amount,tradePassword,tradeid,method,access_key,secret_key):
     timestamp = long(time.time())
-    params = {"access_key": ACCESS_KEY,"secret_key": SECRET_KEY, "created": timestamp,"coin_type":coinType,"amount":amount,"method":method}
+    params = {"access_key": access_key,"secret_key": secret_key, "created": timestamp,"coin_type":coinType,"amount":amount,"method":method}
     sign=signature(params)
     params['sign']=sign
     if tradePassword:

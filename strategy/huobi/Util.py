@@ -4,6 +4,11 @@ import urllib
 import hashlib
 import hmac
 import base64
+import sys
+import os
+append_path =  os.path.dirname(os.getcwd())
+sys.path.append(append_path)
+# from handlers.data_collection import db as d
 
 #在此输入您的Key
 ACCESS_KEY=""

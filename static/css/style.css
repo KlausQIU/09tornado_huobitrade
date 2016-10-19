@@ -246,12 +246,12 @@ i.nav_icon {
   color: #999;
   font-size:14px;
 }
-.form-control {
+/*.form-control {
   background: none !important;
   border: 1px solid #fff !important;
   border-radius: 20px !important;
   box-shadow: none !important;
-}
+}*/
 .navbar-form.navbar-right input[type="text"] {
   color: #fff;
 }
