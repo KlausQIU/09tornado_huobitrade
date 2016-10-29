@@ -139,3 +139,47 @@ class gridHandler(BaseHandler):
         else:
             self.redirect('login')
 
+
+class tradeStrategyHandler(BaseHandler):
+
+    @tornado.web.authenticated  
+    def get(self):  
+        if not self.current_user:
+            self.redirect("/login")
+            return
+        username = tornado.escape.xhtml_escape(self.current_user)
+        db = d.db_control()
+        result = db.select('user',name = username)
+        if result:
+            Setting = db.select('SETTING',UID=result[0][1])
+            tradePennySet = {}
+            tradePennySet['购买币数'] = Setting[0][8]
+            tradePennySet['买单次数'] = Setting[0][3]
+            tradePennySet['止损参数'] = Setting[0][6]
+            tradePennySet['投资金额'] = Setting[0][2]
+            tradePennySet['止损价'] = Setting[0][1]
+            tradePennySet['交易最高价'] = Setting[0][4]
+            tradePennySet['交易最低价'] = Setting[0][5]
+            PriceDict = eval(Setting[0][9])
+            print PriceDict
+            fibonacci = f(result[0][1])
+            fResult = fibonacci.fibonacciResult
+            self.render("tradePennyBase.html",user=result,tradeSet=tradePennySet,orderInterval=PriceDict,fuckName=fResult)
+        else:
+            self.redirect('login')
+
+    @tornado.web.authenticated
+    def post(self):
+        if not self.current_user:
+            self.redirect("/login")
+            return
+        username = tornado.escape.xhtml_escape(self.current_user)
+        db = d.db_control()
+        result = db.select('user',name = username)
+        if result:
+            
+            fibonacci = f(result[0][1])
+            fResult = fibonacci.fibonacciResult
+            self.render("tradePennyBase.html",user=result,fibonacci=fResult)
+        else:
+            self.redirect('login')

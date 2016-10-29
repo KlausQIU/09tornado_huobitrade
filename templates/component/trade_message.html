@@ -40,10 +40,10 @@ function succFunction(data){
     $.each(data_m, function (index, item) { 
      //循环获取数据
     if(index==0){ 
-    html += '<li class="add_style">'+item['time']+'&nbsp;&nbsp;'+item['type']+'&nbsp;&nbsp;'+item['price']+'&nbsp;&nbsp;'+item['amount']+'</li>';
+    html += '<li class="add_style">'+item['time']+'&nbsp;&nbsp;'+item['type']+'&nbsp;&nbsp;&nbsp;&nbsp;'+item['price']+'&nbsp;&nbsp;&nbsp;&nbsp;'+item['amount']+'</li>';
     }
     else{
-       html += '<li>'+item['time']+'&nbsp;&nbsp;'+item['type']+'&nbsp;&nbsp;'+item['price']+'&nbsp;&nbsp;'+item['amount']+'</li>';
+       html += '<li>'+item['time']+'&nbsp;&nbsp;'+item['type']+'&nbsp;&nbsp;&nbsp;&nbsp;'+item['price']+'&nbsp;&nbsp;&nbsp;&nbsp;'+item['amount']+'</li>';
     }
     });
     $(".list-unstyled").html(html);

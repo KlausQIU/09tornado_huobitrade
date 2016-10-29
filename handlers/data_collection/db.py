@@ -10,6 +10,18 @@ class db_control():
         self.cx = sqlite3.connect(r'C:\Klaus\System\16tornado_huobitrade\huobi.db')
         self.cursor = self.cx.cursor()
 
+    def pragma(self,tableName):
+        try:
+            sql = 'PRAGMA table_info('+tableName+')'
+            self.cursor.execute(sql)
+            result = self.cursor.fetchall()
+            self.cx.commit()
+            self.cursor.close()
+            self.cx.close()
+            return result
+        except BaseException as e:
+            print u'Error:',e
+
     def creatTable(self,tableName,*args):
         sql = 'create table '
         sql += tableName
@@ -105,10 +117,28 @@ class db_control():
         for key in updateRow:
             sql += key + '=' + ('%s' if type(updateRow[key]) == int else '"%s"')%updateRow[key] + ','
         sql = sql[:-1]
-        sql += 'where '
+        sql += ' where '
         for key in selectRow:
             sql += key + '=' + ('%s' if type(selectRow[key]) == int else '"%s"')%selectRow[key] + ' and '
         sql = sql[:-4]
+        print sql
+        try:   
+            self.cursor.execute(sql)
+            self.cx.commit()
+            print u'update success'
+            return {'msg':'success'}
+            self.cursor.close()
+            self.cx.close()
+        except BaseException as e:
+            print u'update fail',e
+            return {'msg':['fail',e]}
+
+
+    def alert(self,tableName,updateRow):
+        sql = 'ALTER TABLE '+tableName+' ADD COLUMN '
+        for key in updateRow:
+            sql = sql + key + ' '+ updateRow[key]
+        print sql
         try:   
             self.cursor.execute(sql)
             self.cx.commit()
@@ -132,11 +162,18 @@ if __name__ == '__main__':
     db = db_control()
     #db.creatTable('profitData','NO INTEGER','Time BLOB','id integer','uid integer','Profit BLOB')
     #db.creatTable('fibonacciGrid','id integer','uid integer','position')
+    #db.creatTable('user','id integer primary key','uid integer','name varchar(10) UNIQUE','password TEXT','access_key text UNIQUE','secret_key text UNIQUE')
+    #db.creatTable('huobi','id integer primary key','uid integer','name varchar(10) UNIQUE','password TEXT','access_key text UNIQUE','secret_key text UNIQUE')
     #db.insert('fibonacciGrid',1,1,'0.1,0.3,0.5,0.6,0.8,0.9')
     #db.delete('fibonacciGrid')
-    print db.select('fibonacciGrid')
+    #print db.select('SETTING')
+    # updateRow = {'PriceDict':'BLOB'}
+    # d = db.alert('SETTING', updateRow)
+    # print d
+    sqlRun = 'PRAGMA table_info([SETTING])'
+    d = db.pragma('SETTING')
+    print d
     #print db.select('user')
-    #db.creatTable('user','id integer primary key','uid integer','name varchar(10) UNIQUE','password TEXT','access_key text UNIQUE','secret_key text UNIQUE')
     #db.insert('user',0,0,'Moon','qiu','7ffd4f94-63d605e6-d5f400fb-a6ba0','d5d52f33-dcbd2167-5c6b7b0f-f5676')
     # db.insert('user',1,1,'xuan','huang','11111111111','222222222222')
     #d1 = {'access_key':'1201110a-db609c49-0761f29f-5416b'}
@@ -149,5 +186,5 @@ if __name__ == '__main__':
     # db.close()
     # db.delete('huobi',id=1,name='MoonQiu')
     #db.insert('huobi',0,0,'KlausQiu','qiu','11111111111111','2222222222222')
-    #db.creatTable('huobi','id integer primary key','uid integer','name varchar(10) UNIQUE','password TEXT','access_key text UNIQUE','secret_key text UNIQUE')
+    
     

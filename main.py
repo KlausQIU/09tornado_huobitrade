@@ -29,8 +29,8 @@ if __name__ == '__main__':
     import sys
     sys.path.append(os.getcwd())
     try:
-        ProfitDataCollection()
-        tornado.ioloop.PeriodicCallback(ProfitDataCollection, 900000).start()
+        #ProfitDataCollection()
+        #tornado.ioloop.PeriodicCallback(ProfitDataCollection, 900000).start()
         tornado.options.parse_command_line()
         http_server = tornado.httpserver.HTTPServer(Application())
         http_server.listen(options.port)

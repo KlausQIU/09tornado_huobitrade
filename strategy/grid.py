@@ -15,12 +15,12 @@ __author__ = 'KlausQiu'
 #日期时间，开盘价，最高价，最低价，收盘价，成交量
 class fibonacci:
     def __init__(self,uid):
-        # try:
+        try:
             self.ticker_ltc = json.loads(urllib2.urlopen(r'http://api.huobi.com/staticmarket/ticker_ltc_json.js').read())
             self.kline_datas = json.loads(urllib2.urlopen(r'http://api.huobi.com/staticmarket/ltc_kline_100_json.js').read())
             #目前是看最近30天内的最高和最低
-            self.highPirce =max([self.kline_datas[n][2] for n in range(-30,-1)])
-            self.lowPirce = min([self.kline_datas[n][3] for n in range(-30,-1)])
+            self.highPirce =max([self.kline_datas[n][2] for n in range(-30,0)])
+            self.lowPirce = min([self.kline_datas[n][3] for n in range(-30,0)])
             #斐波那契的黄金分割系数
             self.coefficient = [1,0.786,0.618,0.5,0.382,0.236]
             #算出各个点的价格，建立区间
@@ -35,8 +35,8 @@ class fibonacci:
             self.uid = uid
             self.freightSpace = self.freightSpace()
             self.fibonacciResult = self.FResult()
-        # except BaseException as e:
-        #     print '暂时无法获取数据',e
+        except BaseException as e:
+            print '暂时无法获取数据',e
 
 
     def handlerPrice(self):
@@ -69,10 +69,14 @@ class fibonacci:
 
     def now_interval(self):
         f = self.fibonacci_interval
+        print f
         self.buyone_price = self.ticker_ltc['ticker']['buy']
+        now_interval = []
+        print self.buyone_price
         for n in f:
             if n >= self.buyone_price >= f[f.index(n)+1]:
+                print n,f[f.index(n)+1]
                 now_interval = map(general.float_format,[f[f.index(n)],f[f.index(n)+1]])
-                return  now_interval
+                return now_interval
 
 

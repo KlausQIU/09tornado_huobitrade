@@ -45,10 +45,10 @@ APIInfows.onmessage = function(event){
     $("input[name='access_key']").val(data.access_key);
     $("input[name='secret_key']").val(data.secret_key);
     $("input[name='totalMoney']").val(data.TOTALMONEY);
+    APIInfows.close();
 }
 $(".APIsubmit").click(APISubmit);
 function APISubmit(){
-    debugger;
     var ws = new WebSocket(APIInfourl)
     ws.onopen = function(){
         var a_key = $("input[name='access_key']").val()
@@ -59,8 +59,10 @@ function APISubmit(){
     }
     ws.onmessage = function(event){
         var data = JSON.parse(event.data);
+        if(data.msg=="success"){
         swal("修改成功", "", "success")
-        console.log(data.access_key)
+        console.log(data)
+        }
     }
 }
 

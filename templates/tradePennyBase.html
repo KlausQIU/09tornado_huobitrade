@@ -12,7 +12,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="grid">网格策略</a>
+                <a class="navbar-brand" href="grid">市交策略</a>
             </div>
             <!-- /.navbar-header -->
                 {% include component/avatar.html %}
@@ -21,10 +21,11 @@
         </nav>
         <div id="page-wrapper">
     <div class="graphs">
-     	{% include component/accountInfo.html %}
+        {% include component/accountInfo.html %}
   <div  class="col-md-12" style="margin-bottom: 20px">
-     {% include component/gridSetting.html %}
-      {% include component/grid.html %}
+     {% include component/tradePennySetting.html %}
+     {% include component/tradeOrderInterval.html %}
+      {% include component/tradePenny.html %}
   </div>
   <div class="clearfix"> </div>
   </div>

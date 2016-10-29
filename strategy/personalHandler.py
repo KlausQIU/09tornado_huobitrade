@@ -24,7 +24,7 @@ class personalHandler():
             #委托单信息
             self.getOrder = HuobiService.getOrders(2,GET_ORDERS,access_key,secret_key)
             #借用的杠杆币
-            self.loan_ltc_display = float(self.account_info['loan_ltc_display'])
+            self.loan_ltc_display = float(self.account_info['loan_ltc_display']) if self.account_info.has_key('loan_ltc_display') else 0
             self.ltc_total = float(self.account_info['available_ltc_display'])+float(self.account_info['frozen_ltc_display'])
             #全部的财产
             self.total = self.account_info['total']

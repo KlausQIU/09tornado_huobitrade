@@ -96,6 +96,9 @@
 var ltcprice = $("h5[name='ltcprice']>strong")
 var number = $("div.stats>h5>strong");
 var btcprice = $("h5[name='btcprice']>strong")
+var net_asset,ltc;
+var ltcDataUrl = 'ws://'+window.location.host+'/api/ltcData';
+var btcDataUrl = 'ws://'+window.location.host+'/api/btcData';
 function numberStep(now, tween) {
             var floored_number = Math.floor(now) / decimal_factor,
             target = $(tween.elem);
@@ -108,29 +111,30 @@ function numberStep(now, tween) {
             target.text("￥" + floored_number);
             }
 function account_data(){
-  var url = 'ws://'+window.location.host+'/api/accountInfo'
-  var ws = new WebSocket(url);
-  ws.onmessage = function(event) {
+  var accountUrl = 'ws://'+window.location.host+'/api/accountInfo'
+  var accountWs = new WebSocket(accountUrl);
+  accountWs.onmessage = function(event) {
     var data = JSON.parse(event.data);
     number.eq(0).html(data["ProfitRate"]+"%");
     number.eq(1).html("￥"+data["testMoney"]);
     number.eq(2).html(data["tradeTotal"]);
     number.eq(3).html("￥"+data["net_asset"]);
+    net_asset = data["net_asset"]
     $("h5[name='moneyTotal']>strong").html("￥"+data["moneyTotal"])
     var bombprice = (data["moneyTotal"]*100/110)/data["loan_ltc_display"]
     $("h5[name='bombprice']>strong").html("￥"+bombprice.toFixed(2))
+    accountWs.close();
 }
 }
 function ltcData(){
-  $.ajax({
-        url: 'http://api.huobi.com/staticmarket/ticker_ltc_json.js',
-        type: 'GET',
-        dataType: 'json',
-        success: function (data) {
-            ltcdata = data.ticker.last;
-            newLtcprice = $(".ltcprice").text()
-            newLtcprice = newLtcprice.substring(1)
-            if(newLtcprice < ltcdata){
+
+  var ltcDataws = new WebSocket(ltcDataUrl)
+  ltcDataws.onmessage = function(event){
+    var data = JSON.parse(event.data);
+    ltcdata = data.ticker.last;
+    newLtcprice = $(".ltcprice").text()
+    newLtcprice = newLtcprice.substring(1)
+    if(newLtcprice < ltcdata){
               ltcprice.html("￥"+ltcdata+"  <span class='fa fa-up  fa-4x fa-arrow-up'></span>").fadeOut('slow');
               ltcprice.css("color","#05e4a1")
               ltcprice.html("￥"+ltcdata+"  <span class='fa fa-up  fa-4x fa-arrow-up'></span>").fadeIn('slow');
@@ -143,17 +147,14 @@ function ltcData(){
               ltcprice.css("color","#00aced")
               ltcprice.html("￥"+ltcdata).fadeIn('slow');
             }
-            // 此处放成功后执行的代码
-        },
-    })
+            ltc = ltcdata
+            ltcDataws.close()
+  }
 }
 function btcData(){
-  $.ajax({
-        url: 'http://api.huobi.com/staticmarket/ticker_btc_json.js',
-        type: 'GET',
-        dataType: 'json',
-        success: function (data) {
-            // 此处放成功后执行的代码
+  var btcDataws = new WebSocket(btcDataUrl)
+  btcDataws.onmessage = function(event){
+            var data = JSON.parse(event.data);
             btcdata = data.ticker.last;
             newBtcprice = $(".btcprice").text()
             newBtcprice = newBtcprice.substring(1)
@@ -170,9 +171,8 @@ function btcData(){
               btcprice.css("color","#00aced")
               btcprice.html("￥"+btcdata).fadeIn('slow');
             }
-
-        },
-    })
+            btcDataws.close()
+}
 }
 function titleSet(){
    $(document).attr("title","LTC: "+ltcprice.text()+' BTC: '+btcprice.text());//修改title值
@@ -183,8 +183,8 @@ ltcData()
 btcData()
 titleSet()
 setInterval("account_data()",30000);
-setInterval("ltcData()",30000);
-setInterval("btcData()",10000);
-setInterval("titleSet()",10000);
-})
+setInterval("ltcData()",3000);
+setInterval("btcData()",3000);
+setInterval("titleSet()",1000);
+});
 </script>

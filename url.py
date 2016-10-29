@@ -15,6 +15,7 @@ url += [(r"^/trade", "handlers.huobi.TradeHandler")]
 url += [(r"^/entrust", "handlers.huobi.entrustHandler")]
 url += [(r"^/logout", "handlers.huobi.LogoutHandler")]
 url += [(r"^/grid", "handlers.huobi.gridHandler")]
+url += [(r"^/tradeStrategy", "handlers.huobi.tradeStrategyHandler")]
 url += [(r"^/api/accountInfo", "handlers.ApiHandler.accountInfo")]
 url += [(r"^/api/Profit", "handlers.ApiHandler.ProfitHandler")]
 url += [(r"^/api/entrust", "handlers.ApiHandler.entrustInfo")]
@@ -25,7 +26,12 @@ url += [(r"^/api/APIInfo", "handlers.ApiHandler.APIInfo")]
 url += [(r"^/api/dealMessage", "handlers.ApiHandler.dealMessage")]
 url += [(r"^/api/avatarInfo", "handlers.ApiHandler.avatarInfo")]
 url += [(r"^/api/gridSetApi", "handlers.ApiHandler.gridSetApi")]
-
+url += [(r"^/api/tradePennySet", "handlers.ApiHandler.tradePennySetHandler")]
+url += [(r"^/api/tradeOrderSet", "handlers.ApiHandler.tradeOrderSetHandler")]
+url += [(r"^/api/tradePennyShow", "handlers.ApiHandler.tradePennyShow")]
+url += [(r"^/api/ltcData", "handlers.ApiHandler.ltcDataHandler")]
+url += [(r"^/api/btcData", "handlers.ApiHandler.btcDataHandler")]
+url += [(r"^/api/handlerltc", "handlers.ApiHandler.handlerltcHandler")]
 
 
 

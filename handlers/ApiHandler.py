@@ -45,6 +45,7 @@ class ProfitHandler(BaseWebSocketHandler):
             result = result[-200:]
         respon_json = tornado.escape.json_encode(result) 
         self.write_message(respon_json)
+        self.on_close()
   
 class accountInfo(BaseWebSocketHandler):
     clients = set()  
@@ -67,6 +68,7 @@ class accountInfo(BaseWebSocketHandler):
         }
         respon_json = tornado.escape.json_encode(respon)
         self.write_message(respon_json)
+        self.on_close()
 
 class APIInfo(BaseWebSocketHandler):
     clients = set()  
@@ -79,9 +81,9 @@ class APIInfo(BaseWebSocketHandler):
             SECRET_KEY=result[0][5]
             SettingResult = db.select('SETTING',UID = result[0][1])
             result = {'access_key':ACCESS_KEY,'secret_key':SECRET_KEY,'TOTALMONEY':SettingResult[0][2]}
-            print result
             respon_json = tornado.escape.json_encode(result)
             self.write_message(respon_json)
+            self.on_close()
 
     def on_message(self, message):
         db,username = self.baseOpenDb()
@@ -96,10 +98,12 @@ class APIInfo(BaseWebSocketHandler):
             setselect = {'UID':UResult[0][1]}
             SetResult = db.update("SETTING",setRow,setselect)
             if UserResult['msg'] == 'success':
-                result = {'access_key':UResult[0][4],'secret_key':UResult[0][5],'TOTALMONEY':SetResult[0][2]}
-                respon_json = tornado.escape.json_encode(result)
-                print respon_json
+                respon_json = tornado.escape.json_encode(UserResult)
                 self.write_message(respon_json)
+            else:
+                result = tornado.escape.json_encode({'msg':'fail'})
+                self.write_message(result)
+                self.on_close()
 
 
 class entrustInfo(BaseWebSocketHandler):
@@ -113,6 +117,7 @@ class entrustInfo(BaseWebSocketHandler):
             getOrders = personalH.getOrder
             respon_json = tornado.escape.json_encode(getOrders)
             self.write_message(respon_json)
+            self.on_close()
         
 class entrustCancel(BaseWebSocketHandler):
     clients = set()  
@@ -122,15 +127,13 @@ class entrustCancel(BaseWebSocketHandler):
     def on_message(self, message):
         db,username = self.baseOpenDb()
         result = db.select('user',name = username)
-        print result
         if result:
             personalH = pH.personalHandler(result[0][4],result[0][5])
-            print message
             oid = int(message)
             result = personalH.CancelOrder(2,oid)
-            print result
             respon_json = tornado.escape.json_encode(result)
             self.write_message(respon_json)
+            self.on_close()
 
 class tradeSetting(BaseWebSocketHandler):
     clients = set()  
@@ -150,6 +153,7 @@ class tradeSetting(BaseWebSocketHandler):
                 result = {'testMoney':result[0][1]}
                 respon_json = tornado.escape.json_encode(result)
                 self.write_message(respon_json)
+                self.on_close()
 
 class tradeSetInfo(BaseWebSocketHandler):
     clients = set()  
@@ -166,6 +170,7 @@ class tradeSetInfo(BaseWebSocketHandler):
             result = {'testMoney':result[0][1],'highPrice':result[0][4],'lowPrice':result[0][5]}
             respon_json = tornado.escape.json_encode(result)
             self.write_message(respon_json)
+            self.on_close()
 
 class dealMessage(BaseWebSocketHandler):
     clients = set()
@@ -178,6 +183,7 @@ class dealMessage(BaseWebSocketHandler):
             dealOrders = personalH.DealOrder(2) if personalH.DealOrder(2) else {}
             respon_json = tornado.escape.json_encode(dealOrders)
             self.write_message(respon_json)
+            self.on_close()
 
 
 class avatarInfo(BaseWebSocketHandler):
@@ -190,6 +196,7 @@ class avatarInfo(BaseWebSocketHandler):
             avatarInfo = {"name":result[0][2],"password":result[0][3]}
             respon_json = tornado.escape.json_encode(avatarInfo)
             self.write_message(respon_json)
+            self.on_close()
 
     def on_message(self, message):
         db,username = self.baseOpenDb()
@@ -205,6 +212,7 @@ class avatarInfo(BaseWebSocketHandler):
             else:
                 result = tornado.escape.json_encode({'msg':'fail'})
                 self.write_message(result)
+                self.on_close()
 
 class gridSetApi(BaseWebSocketHandler):
     clients = set()
@@ -223,17 +231,116 @@ class gridSetApi(BaseWebSocketHandler):
             if FResult['msg'] == 'success':
                 respon_json = tornado.escape.json_encode(FResult)
                 self.write_message(respon_json)
+                self.on_close()
             else:
                 result = tornado.escape.json_encode({'msg':'fail'})
                 self.write_message(result)
+                self.on_close()
 
 
+class tradePennySetHandler(BaseWebSocketHandler):
+    clients = set()
+    def open(self):
+        print 'tradePennySetHandler websocket Open'
 
+    def on_message(self,message):
+        db,username = self.baseOpenDb()
+        result = db.select('user',name = username)
+        if result:
+            message = json.loads(message)
+            print message
+            updateRow = message
+            selectRow = {'UID':result[0][1]}
+            SResult = db.update("SETTING",updateRow,selectRow)
+            print SResult
+            if SResult['msg'] == 'success':
+                respon_json = tornado.escape.json_encode(SResult)
+                self.write_message(respon_json)
+                self.on_close()
+            else:
+                result = tornado.escape.json_encode({'msg':'fail'})
+                self.write_message(result)
+                self.on_close()
         
 
+class tradeOrderSetHandler(BaseWebSocketHandler):
+    clients = set()
+    def open(self):
+        print 'tradeOrderSetHandler websocket Open'
+
+    def on_message(self,message):
+        db,username = self.baseOpenDb()
+        result = db.select('user',name = username)
+        if result:
+            message = json.loads(message)
+            print message
+            updateRow = {'PriceDict':str(message)}
+            selectRow = {'UID':result[0][1]}
+            SResult = db.update("SETTING",updateRow,selectRow)
+            print SResult
+            if SResult['msg'] == 'success':
+                respon_json = tornado.escape.json_encode(SResult)
+                self.write_message(respon_json)
+                self.on_close()
+            else:
+                result = tornado.escape.json_encode({'msg':'fail'})
+                self.write_message(result)
+                self.on_close()
+
+class tradePennyShow(BaseWebSocketHandler):
+    clients = set()
+    def open(self):
+        print 'tradePennyShow websocket Open'
+
+    def on_message(self,message):
+        db,username = self.baseOpenDb()
+        result = db.select('user',name = username)
+        if result:
+            message = json.loads(message)
+            print message
+            updateRow = {'PriceDict':str(message)}
+            selectRow = {'UID':result[0][1]}
+            SResult = db.update("SETTING",updateRow,selectRow)
+            print SResult
+            if SResult['msg'] == 'success':
+                respon_json = tornado.escape.json_encode(SResult)
+                self.write_message(respon_json)
+                self.on_close()
+            else:
+                result = tornado.escape.json_encode({'msg':'fail'})
+                self.write_message(result)
+                self.on_close()
+
+class ltcDataHandler(BaseWebSocketHandler):
+    clients = set()
+    def open(self):
+        print 'ltcDataHandler websocket Open'
+        ticker_ltc = json.loads(urllib2.urlopen(r'http://api.huobi.com/staticmarket/ticker_ltc_json.js').read())
+        respon_json = tornado.escape.json_encode(ticker_ltc)
+        self.write_message(respon_json)
+
+class btcDataHandler(BaseWebSocketHandler):
+    clients = set()
+    def open(self):
+        print 'btcDataHandler websocket Open'
+        ticker_ltc = json.loads(urllib2.urlopen(r'http://api.huobi.com/staticmarket/ticker_btc_json.js').read())
+        respon_json = tornado.escape.json_encode(ticker_ltc)
+        self.write_message(respon_json)
 
 
+class handlerltcHandler(BaseWebSocketHandler):
+    clients = set()
+    def open(self):
+        print 'handlerltcHandler websocket Open'
+        handlerltc = json.loads(urllib2.urlopen(r'http://api.huobi.com/staticmarket/ltc_kline_015_json.js').read())
+        handlerltc = handlerltc[-200:]
+        respon_json = tornado.escape.json_encode(handlerltc)
+        self.write_message(respon_json)
 
-
-
-
+        # var handlerltcUrl = 'ws://'+window.location.host+'/api/handlerltc'
+        # var handlerltcws = new WebSocket(handlerltcUrl);
+        # handlerltcws.onmessage = function(event){
+        # var data = JSON.parse(event.data);
+        # data0 = splitData(data);
+        # handlerltcws.close();
+        # }

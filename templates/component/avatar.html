@@ -20,6 +20,7 @@
                         <li class="m_2"><a href="/logout"><i class="fa fa-lock"></i>Logout</a></li>  
                     </ul>
                 </li>
+</ul>
 <div id="modall" class="modal-demo" style="display: none;backgroud-color:white">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -51,7 +52,9 @@
                     </div>
                 </div>
 </div>
-</ul>
+</div>
+</div>
+
 <script>
 $('#callModal').on('click', function( e ) {
     Custombox.open({
@@ -76,16 +79,16 @@ function avatarSava(){
     }
     ws.onmessage = function(event){
         var data = JSON.parse(event.data);
-        console.log(data);
-        console.log(data.name)
         if(data.name !== null || data.name !== undefined || name !== ''){
         swal("修改成功", "", "success")
         $("input[name='name']").val(data.name)
         $("input[name='password']").val(data.password)
+        ws.close();
         }else{
             swal("修改失败","","error")
             $("input[name='name']").val(data.name)
             $("input[name='password']").val(data.password)
+            ws.close();
         }
     }
 }
