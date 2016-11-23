@@ -137,6 +137,39 @@ class gridHandler(BaseHandler):
             fResult = fibonacci.fibonacciResult
             self.render("gridBase.html",user=result,fibonacci=fResult)
         else:
+            self.redirect('/login')
+
+class HuobiLtcHandler(BaseHandler):
+
+    @tornado.web.authenticated  
+    def get(self):  
+        if not self.current_user:
+            self.redirect("/login")
+            return
+        username = tornado.escape.xhtml_escape(self.current_user)
+        db = d.db_control()
+        result = db.select('user',name = username)
+        if result:
+            fibonacci = f(result[0][1])
+            fResult = fibonacci.fibonacciResult
+            self.render("huobiLtcBase.html",user=result,fibonacci=fResult)
+        else:
+            self.redirect('/login')
+
+    @tornado.web.authenticated
+    def post(self):
+        if not self.current_user:
+            self.redirect("/login")
+            return
+        username = tornado.escape.xhtml_escape(self.current_user)
+        db = d.db_control()
+        result = db.select('user',name = username)
+        if result:
+            
+            fibonacci = f(result[0][1])
+            fResult = fibonacci.fibonacciResult
+            self.render("gridBase.html",user=result,fibonacci=fResult)
+        else:
             self.redirect('login')
 
 

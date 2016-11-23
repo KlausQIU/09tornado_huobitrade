@@ -5,11 +5,19 @@ import sqlite3
 import os
 import sys
 
-class db_control():
-    def __init__(self):
+def intailze(func):
+    def init(self,*args,**kw):
         self.cx = sqlite3.connect(r'C:\Klaus\System\16tornado_huobitrade\huobi.db')
         self.cursor = self.cx.cursor()
+        return func(self,*args,**kw)
+        self.close()
+    return init
 
+class db_control():
+    def __init__(self):
+        pass
+
+    @intailze
     def pragma(self,tableName):
         try:
             sql = 'PRAGMA table_info('+tableName+')'
@@ -22,6 +30,7 @@ class db_control():
         except BaseException as e:
             print u'Error:',e
 
+    @intailze
     def creatTable(self,tableName,*args):
         sql = 'create table '
         sql += tableName
@@ -42,6 +51,7 @@ class db_control():
         except BaseException as e:
             print u'Error:',e
 
+    @intailze
     def insert(self,tableName,*args):
         sql = 'insert into '+tableName+' values('
         field = ''
@@ -62,6 +72,7 @@ class db_control():
         except BaseException as e:
             print u'Error:',e
 
+    @intailze
     def select(self,tableName,*args,**kw):
         sql = 'select '
         if args:
@@ -81,7 +92,7 @@ class db_control():
             rowlist.append(list(row))
         return rowlist
         
-
+    @intailze
     def delete(self,tableName,**kw):
         sql = "DELETE from "+tableName +' where '
         if kw:
@@ -112,6 +123,7 @@ class db_control():
             except:
                 print u'delete %s fail'%tableName
 
+    @intailze
     def update(self,tableName,updateRow,selectRow):
         sql = 'update '+tableName+' set '
         for key in updateRow:
@@ -133,7 +145,7 @@ class db_control():
             print u'update fail',e
             return {'msg':['fail',e]}
 
-
+    @intailze
     def alert(self,tableName,updateRow):
         sql = 'ALTER TABLE '+tableName+' ADD COLUMN '
         for key in updateRow:
@@ -164,27 +176,21 @@ if __name__ == '__main__':
     #db.creatTable('fibonacciGrid','id integer','uid integer','position')
     #db.creatTable('user','id integer primary key','uid integer','name varchar(10) UNIQUE','password TEXT','access_key text UNIQUE','secret_key text UNIQUE')
     #db.creatTable('huobi','id integer primary key','uid integer','name varchar(10) UNIQUE','password TEXT','access_key text UNIQUE','secret_key text UNIQUE')
-    #db.insert('fibonacciGrid',1,1,'0.1,0.3,0.5,0.6,0.8,0.9')
-    #db.delete('fibonacciGrid')
-    #print db.select('SETTING')
+    #db.creatTable('AllStrategy','uid integer','Grid BLOB','TradePenny BLOB')
+    #db.creatTable('TradePenny','uid integer','BuyOrSell BLOB','Coin Blob','Amount BLOB','Price BLOB','Status Blob')
+    #db.creatTable('publicData','Time BLOB','DEALDATA BLOB','TICKERLTC BLOB','TICKERBTC BLOB','LTCTRADEVOL BLOB')
+    #db.creatTable('privateData','uid BLOB','Time BLOB','NET_ASSET BLOB','PROFITRATE BLOB','TOTAL BLOB','BOMBPRICE BLOB')
+    #db.creatTable('ltcData','Time BLOB','xBxisData BLOB','ltcData BLOB')
+    # db.creatTable('tradePenny','Time BLOB','uid BLOB','MSG BLOB')    
+    print db.select('user')
+    #db.insert('AllStrategy',0,'false','false')
+    #db.delete('profitData',Profit=u'1150.87')
+    #print min(item[4] for item in db.select('profitData'))
     # updateRow = {'PriceDict':'BLOB'}
     # d = db.alert('SETTING', updateRow)
     # print d
-    sqlRun = 'PRAGMA table_info([SETTING])'
-    d = db.pragma('SETTING')
-    print d
-    #print db.select('user')
+    # #sqlRun = 'PRAGMA table_info([SETTING])'
+    # d = db.pragma('SETTING')
+    # print d
+    # print db.select('SETTING',uid=1)
     #db.insert('user',0,0,'Moon','qiu','7ffd4f94-63d605e6-d5f400fb-a6ba0','d5d52f33-dcbd2167-5c6b7b0f-f5676')
-    # db.insert('user',1,1,'xuan','huang','11111111111','222222222222')
-    #d1 = {'access_key':'1201110a-db609c49-0761f29f-5416b'}
-    # d1 = {'secret_key':'f9eb3f82-e09da827-5ace3f4c-57390'}
-    # d1 = {'name':'Moon','password':'qiu'}
-    # d2 = {'id':0}
-    # db.update('user',d1,d2)
-    # c = db.select('user')
-    # print c
-    # db.close()
-    # db.delete('huobi',id=1,name='MoonQiu')
-    #db.insert('huobi',0,0,'KlausQiu','qiu','11111111111111','2222222222222')
-    
-    

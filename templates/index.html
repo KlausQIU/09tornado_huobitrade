@@ -8,7 +8,7 @@
         <nav class="top1 navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
+                    <span class="sr-only"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -20,22 +20,23 @@
             {% include component/navbar_side.html %}
             <!-- /.navbar-static-side -->
         </nav>
-        <div id="page-wrapper">
+    <div id="page-wrapper">
     <div class="graphs">
      	{% include component/accountInfo.html %}
-    <div class="col-md-12" style="margin-bottom: 20px">
-            {% include component/APIsetting.html %}
-            {% include component/LitecoinGraph.html %}
+    <div class="col_1">
+    
+            {% include component/main/APIsetting.html %}
+            {% include component/main/LitecoinGraph.html %}
 	  </div>
     <div class="clearfix"> </div>
-	  <div class="col-md-12" style="margin-bottom: 20px">
-        {% include component/tradeSetting.html %}
-        {% include component/entrust_message.html %}
+	  <div class="col_1">
+        {% include component/main/tradeSetting.html %}
+        {% include component/main/entrust_message.html %}
     </div>
     <div class="clearfix"> </div>
-    <div class="col-md-12" style="margin-bottom: 20px">
-        {% include component/trade_message.html %}
-        {% include component/deal_message.html %}
+    <div class="col_1">
+        {% include component/main/trade_message.html %}
+        {% include component/main/deal_message.html %}
   </div>
   <div class="clearfix"> </div>
   </div>
@@ -43,6 +44,9 @@
      <div class="col-md-8 span_3">
         {% include component/footer.html %}
     </div>
+   </div>
+   </div>
+   </div>
    </div>
     <!-- /#wrapper -->
     <!-- Bootstrap Core JavaScript -->

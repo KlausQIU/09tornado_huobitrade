@@ -58,7 +58,7 @@ class fibonacci:
 
     def FResult(self):
         fibonacci = []
-        names = ['一区','二区','三区','四区','五区','六区']
+        names = ['一区(空)','二区(RUN)','三区(X)','四区(RUN)','五区(多)','六区(多)']
         self.nowInterval = self.now_interval()
         for n in range(0,6):
             fibonacci.append({"name":names[n],"position":self.fibonacciGrid[n],"today":self.fibonacci_interval[n],"yesterday":self.fibonacci_interval[n+1]})
