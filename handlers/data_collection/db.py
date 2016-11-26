@@ -4,6 +4,7 @@
 import sqlite3
 import os
 import sys
+import time
 
 def intailze(func):
     def init(self,*args,**kw):
@@ -182,7 +183,15 @@ if __name__ == '__main__':
     #db.creatTable('privateData','uid BLOB','Time BLOB','NET_ASSET BLOB','PROFITRATE BLOB','TOTAL BLOB','BOMBPRICE BLOB')
     #db.creatTable('ltcData','Time BLOB','xBxisData BLOB','ltcData BLOB')
     # db.creatTable('tradePenny','Time BLOB','uid BLOB','MSG BLOB')    
-    print db.select('user')
+    # updateRow = {'access_key':'','secret_key':''}
+    # selectRow = {'id':1}
+    # db.update('user',updateRow,selectRow)
+    # c = db.select('profitData',id=0)
+    # for d in c:
+    #     if float(d[4]) >= 700:
+    #         print d
+    # db.delete('profitData',Profit='0')
+    # print c
     #db.insert('AllStrategy',0,'false','false')
     #db.delete('profitData',Profit=u'1150.87')
     #print min(item[4] for item in db.select('profitData'))
@@ -190,7 +199,11 @@ if __name__ == '__main__':
     # d = db.alert('SETTING', updateRow)
     # print d
     # #sqlRun = 'PRAGMA table_info([SETTING])'
-    # d = db.pragma('SETTING')
+    # d = db.pragma('tradePenny')
     # print d
+    updateRow = {'order_id':'BLOB'}
+    db.alert('tradePenny',updateRow)
     # print db.select('SETTING',uid=1)
     #db.insert('user',0,0,'Moon','qiu','7ffd4f94-63d605e6-d5f400fb-a6ba0','d5d52f33-dcbd2167-5c6b7b0f-f5676')
+    # db.insert('tradePenny',0,'Sell','LTC',1,27.61,0,u'测试一个')
+    #print db.select('tradePenny')

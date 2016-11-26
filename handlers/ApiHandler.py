@@ -374,3 +374,65 @@ class PublicDealMessage(BaseWebSocketHandler):
     def on_close(self):
         print 'PublicDealMessage websocket Closed'
         self.DealMessage.stop()
+
+class DrawProfit(BaseWebSocketHandler):
+    clients = set()
+    def open(self):
+        print 'DrawProfit websocket Open'
+        db,username = self.baseOpenDb()
+        result = db.select('user',name = username)
+        result = db.select('profitData',uid=result[0][1])
+        if len(result) > 3000:
+            result = result[-3000:]
+            xAxisData = [item[1][4:8]+'/'+item[1][8:10]+':'+item[1][10:12] for item in result]
+            showdata = [item[4] for item in result]
+        respon_json = tornado.escape.json_encode({"xAxisData":xAxisData,"showdata":showdata}) 
+        self.write_message(respon_json)
+
+    def on_close(self):
+        print "DrawProfit websocket close"
+
+
+class HuobiLtcSell(BaseWebSocketHandler):
+    clients = set()
+    def open(self):
+        print 'HuobiLtcSell WebSocket Open'
+        db,username = self.baseOpenDb()
+        result = db.select('user',name= username)
+        if result:
+            if len(result[0][4]) == 32 and len(result[0][5]) == 32:
+                personalH = pH.personalHandler(result[0][4],result[0][5])
+                available_ltc_display = personalH.available_ltc_display
+                data = publicDataReturn()
+                tradePrice = data['ticker_ltc'] if data else 0
+                respon_json = tornado.escape.json_encode({"available_ltc_display":available_ltc_display,"tradePrice":tradePrice})
+                self.write_message(respon_json)
+            else:
+                respon_json = tornado.escape.json_encode({"available_ltc_display":0,"tradePrice":0})
+                self.write_message(respon_json)
+
+    def on_message(self,message):
+        db,username = self.baseOpenDb()
+        result = db.select('user',name = username)
+        if result:
+            message = json.loads(message)
+            print message
+            personalH = pH.personalHandler(result[0][4],result[0][5])
+            ltcSellResult = personalH.ltcSell(message['SellCount'],message['SellPrice'])
+            if ltcSellResult:
+                if ltcSellResult['statu'] == 'success':
+                    respon_json = tornado.escape.json_encode({'msg':'success'})
+                    self.write_message(respon_json)
+                else:
+                    respon_json = tornado.escape.json_encode({'msg':'fail'})
+                    self.write_message(respon_json)
+            else:
+                respon_json = tornado.escape.json_encode({'msg':'fail'})
+                self.write_message(respon_json)
+ 
+
+
+
+
+
+

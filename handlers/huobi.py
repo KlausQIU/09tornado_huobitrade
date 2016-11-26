@@ -30,6 +30,7 @@ class HuobiHandler(BaseHandler):
             SettingResult = db.select('SETTING',UID=result[0][1])
             personalH = pH.personalHandler(result[0][4],result[0][5])
             getOrders = personalH.getOrder if personalH.getOrder else {}
+            getOrders.sort(key=lambda i:float(i['order_price'])) if getOrders else {}
             dealOrders = personalH.DealOrder(2) if personalH.DealOrder(2) else {}
             mount=' ' if len(getOrders) == 0 else '('+'%s'%(len(getOrders))+')'
             self.render("index.html",orders=getOrders,mount=mount,dealOrders=dealOrders,user=result)
@@ -96,6 +97,8 @@ class entrustHandler(BaseHandler):
             personalH = pH.personalHandler(result[0][4],result[0][5])
             getOrders = personalH.getOrder if personalH.getOrder else {}
             if getOrders:
+                getOrders.sort(key=lambda i:float(i['order_price']))
+                print getOrders
                 self.render("component/entrust_message.html",orders=getOrders)
 
 
@@ -150,9 +153,7 @@ class HuobiLtcHandler(BaseHandler):
         db = d.db_control()
         result = db.select('user',name = username)
         if result:
-            fibonacci = f(result[0][1])
-            fResult = fibonacci.fibonacciResult
-            self.render("huobiLtcBase.html",user=result,fibonacci=fResult)
+            self.render("huobiLtcBase.html",user=result)
         else:
             self.redirect('/login')
 

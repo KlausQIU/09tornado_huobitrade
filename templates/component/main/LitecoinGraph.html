@@ -1,10 +1,10 @@
 <div class="col-md-8 span-8 col-xs-12 col-sm-12" style="height:434px;background-color: none;" >
-<div id="myProfit" style="padding-left: 15px;background: #ffffff;height:434px;">
+<div id="LitecoinGraph" style="padding-left: 15px;background: #ffffff;height:434px;">
 </div>
 </div>
 <script>
 var xAxisData,showdata,xBxisData,ltcData;
-var myProfit = echarts.init(document.getElementById("myProfit"),'walden');
+var myProfit = echarts.init(document.getElementById("LitecoinGraph"),'walden');
 var app = {};
 var handlerltcUrl = 'ws://'+window.location.host+'/api/handlerltc';
 var profitUrl = 'ws://'+window.location.host+'/api/Profit';
@@ -59,7 +59,7 @@ dealws.onmessage = function(event){
             xCxisData.push(date)
             })
     } 
-function handlerProfit(){
+function DrawLTCProfit(){
     var handlerltcws = new WebSocket(handlerltcUrl);
     handlerltcws.onmessage = function(event){
     xAxisData = [];
@@ -228,7 +228,7 @@ if (option && typeof option === "object") {
 }
 }
 $(function(){
-  handlerProfit();
+  DrawLTCProfit();
 })
 </script>
 
